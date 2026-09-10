@@ -1,0 +1,133 @@
+# =============================================================================
+# HORIZONTE DO SABER — .gitignore
+# Spring Boot 3.x · Java 21 · Maven · PostgreSQL · Docker · Microsserviços
+# =============================================================================
+
+# ─── SEGREDOS — NUNCA versionar ───────────────────────────────────────────────
+# Credenciais de banco de dados, segredo JWT (compartilhado entre todos os
+# serviços) e qualquer outra configuração sensível ficam em arquivos .env,
+# fora do controle de versão. Use os arquivos .env.example (sem valores reais)
+# como referência para criar seu próprio .env local.
+#
+# Os padrões abaixo cobrem tanto a raiz do projeto quanto qualquer subpasta
+# (ex.: servicos-migrados/<servico>/.env), graças ao prefixo "**/".
+.env
+.env.*
+!.env.example
+!**/.env.example
+**/.env
+**/.env.*
+!**/*.env.example
+
+# application.properties/.yml de cada serviço só devem existir localmente com
+# valores de exemplo (os reais vêm de variáveis de ambiente via ${VAR}).
+# Ainda assim, arquivos de perfil local/dev/prod (frequentemente usados para
+# sobrescrever com segredos reais durante desenvolvimento) nunca são versionados.
+**/application-local.properties
+**/application-local.yml
+**/application-dev.properties
+**/application-dev.yml
+**/application-prod.properties
+**/application-prod.yml
+**/application-secrets.properties
+**/application-secrets.yml
+
+# Chaves, certificados e credenciais soltas
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+*.crt
+*credentials*.json
+*service-account*.json
+
+# ─── Maven ───────────────────────────────────────────────────────────────────
+target/
+!**/src/main/**/target/
+!**/src/test/**/target/
+.mvn/wrapper/maven-wrapper.jar
+.mvn/timing.properties
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+
+# ─── Spring Boot / Application ───────────────────────────────────────────────
+HELP.md
+spring-shell.log
+*.log
+logs/
+log/
+
+# ─── Java ────────────────────────────────────────────────────────────────────
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+hs_err_pid*
+replay_pid*
+
+# ─── Docker ──────────────────────────────────────────────────────────────────
+.dockerignore
+docker-compose.override.yml
+docker-compose.local.yml
+
+# ─── Windows ─────────────────────────────────────────────────────────────────
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+Desktop.ini
+desktop.ini
+$RECYCLE.BIN/
+*.lnk
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+
+# ─── IDEs: IntelliJ IDEA ─────────────────────────────────────────────────────
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+# ─── IDEs: Eclipse / STS ─────────────────────────────────────────────────────
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings/
+.springBeans
+.sts4-cache/
+
+# ─── IDEs: NetBeans ──────────────────────────────────────────────────────────
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# ─── IDEs: VS Code ───────────────────────────────────────────────────────────
+.vscode/
+*.code-workspace
+
+# ─── Sistemas de OS ──────────────────────────────────────────────────────────
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
