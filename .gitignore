@@ -18,6 +18,7 @@
 **/.env
 **/.env.*
 !**/*.env.example
+relatorios-pmd-consolidado
 
 # application.properties/.yml de cada serviço só devem existir localmente com
 # valores de exemplo (os reais vêm de variáveis de ambiente via ${VAR}).

@@ -139,21 +139,65 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-pmd-plugin</artifactId>
-				<version>3.21.2</version>
+				<version>3.23.0</version>
 				<configuration>
-					<rulesets>
-						<ruleset>category/java/design.xml</ruleset>
-					</rulesets>
+					<failOnViolation>true</failOnViolation>
 					<printFailingErrors>true</printFailingErrors>
+					<rulesets>
+						<ruleset>${project.basedir}/config/pmd/ruleset.xml</ruleset>
+					</rulesets>
+					<includeTests>false</includeTests>
+					<!-- Gera XML detalhado, usado para extrair TODAS as métricas -->
+					<format>xml</format>
+					<linkXRef>false</linkXRef>
 				</configuration>
 				<executions>
 					<execution>
+						<phase>verify</phase>
 						<goals>
-							<goal>check</goal>
+							<goal>check</goal> <!-- Continua falhando o build se violar o limite -->
+							<goal>pmd</goal>   <!-- NOVO: gera relatório completo em target/pmd.xml e target/site/pmd.html -->
 						</goals>
 					</execution>
 				</executions>
 			</plugin>
 		</plugins>
 	</build>
+	<reporting>
+        <plugins>
+            <plugin>
+                	<groupId>org.apache.maven.plugins</groupId>
+               		<artifactId>maven-pmd-plugin</artifactId>
+                <version>3.26.0</version>
+                <configuration>
+                    <targetJdk>21</targetJdk> <!-- Altere para a sua versão do Java -->
+                    <rulesets>
+                        <ruleset>${project.basedir}/config/pmd/ruleset.xml</ruleset>
+                    </rulesets>
+                </configuration>
+            </plugin>
+        </plugins>
+    </reporting>
+	<profiles>
+		<profile>
+			<id>pmd-report</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-pmd-plugin</artifactId>
+						<version>3.23.0</version>
+						<configuration>
+							<rulesets>
+								<ruleset>${project.basedir}/config/pmd/ruleset-report.xml</ruleset>
+							</rulesets>
+							<format>xml</format>
+							<includeTests>false</includeTests>
+							<failOnViolation>false</failOnViolation>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>
