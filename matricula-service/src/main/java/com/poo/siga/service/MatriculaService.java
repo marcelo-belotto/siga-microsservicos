@@ -59,6 +59,12 @@ public class MatriculaService {
         return matriculaRepository.existsByAlunoId(alunoId);
     }
 
+    /** Usado pelo academico-service para verificar se pode excluir uma turma. */
+    @Transactional(readOnly = true)
+    public boolean existeMatriculaParaTurma(Integer turmaId) {
+        return matriculaRepository.existsByTurmaId(turmaId);
+    }
+
     // ─── Escrita ─────────────────────────────────────────────────────────────
 
     @Transactional

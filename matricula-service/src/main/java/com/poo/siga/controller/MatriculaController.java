@@ -58,6 +58,16 @@ public class MatriculaController {
         return ResponseEntity.ok(service.existeMatriculaParaAluno(alunoId));
     }
 
+    /**
+     * Endpoint de verificação usado pelo academico-service antes de excluir uma turma.
+     * Retorna true se a turma possuir alguma matrícula registrada neste serviço.
+     */
+    @GetMapping("/turma/{turmaId}/exists")
+    @Operation(summary = "Verifica se turma possui matrículas (para validação inter-serviço)")
+    public ResponseEntity<Boolean> existeMatriculaParaTurma(@PathVariable Integer turmaId) {
+        return ResponseEntity.ok(service.existeMatriculaParaTurma(turmaId));
+    }
+
     @PostMapping
     public ResponseEntity<MatriculaResponse> criar(@RequestBody @Valid MatriculaRequest req) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.criar(req));

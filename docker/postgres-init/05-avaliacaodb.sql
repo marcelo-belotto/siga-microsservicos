@@ -74,7 +74,7 @@ CREATE TABLE IF NOT EXISTS public.nota (
     periodo integer NOT NULL,
     tipo_avaliacao character varying(255) NOT NULL,
     valor double precision NOT NULL,
-    data_lancamento timestamp(6) without time zone NOT NULL,
+    data_lancamento date NOT NULL,
     usuario_lancamento character varying(255)
 );
 

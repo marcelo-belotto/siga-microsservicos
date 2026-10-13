@@ -2,6 +2,9 @@ package com.poo.siga.config;
 
 import com.poo.siga.security.JwtAuthFilter;
 import lombok.RequiredArgsConstructor;
+
+import java.util.List;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -22,7 +25,9 @@ public class SecurityConfig {
 
     @Bean
     public RestTemplate restTemplate() {
-        return new RestTemplate();
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.setInterceptors(List.of(new JwtForwardInterceptor()));
+        return restTemplate;
     }
 
     @Bean
@@ -34,8 +39,9 @@ public class SecurityConfig {
                     auth.requestMatchers("/actuator/health").permitAll();
                     auth.requestMatchers("/actuator/**").hasRole("ADMIN");
 
-                    // Endpoint de verificação inter-serviço — autenticado via JWT (chamado pelo aluno-service)
+                    // Endpoints de verificação inter-serviço — autenticado via JWT
                     auth.requestMatchers(HttpMethod.GET, "/api/matriculas/aluno/*/exists").authenticated();
+                    auth.requestMatchers(HttpMethod.GET, "/api/matriculas/turma/*/exists").authenticated();
 
                     // MATRICULAS CRUD
                     auth.requestMatchers(HttpMethod.POST, "/api/matriculas/**")

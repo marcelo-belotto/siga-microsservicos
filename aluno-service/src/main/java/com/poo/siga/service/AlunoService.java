@@ -18,7 +18,8 @@ import org.springframework.web.server.ResponseStatusException;
 public class AlunoService {
 
     private final AlunoRepository repository;
-    private final RestTemplate restTemplate = new RestTemplate();
+    private final RestTemplate restTemplate;
+
 
     @Value("${gateway.url:http://localhost:8080}")
     private String gatewayUrl;
@@ -96,9 +97,13 @@ public class AlunoService {
             if (Boolean.TRUE.equals(hasNota)) {
                 throw new ResponseStatusException(HttpStatus.CONFLICT, "Não é possível excluir aluno com notas lançadas. Utilize a inativação.");
             }
-        } catch(Exception ex) {
-            // Se o outro serviço estiver fora, podemos bloquear ou ignorar. Aqui optamos por não quebrar a exclusão se não sabemos o status exato, ou lançar erro:
-            // throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, "Serviços dependentes indisponíveis para validação de exclusão.");
+        } catch (ResponseStatusException ex) {
+            // Re-lança erros HTTP intencionais (ex.: 409 CONFLICT)
+            throw ex;
+        } catch (Exception ex) {
+            // Serviço dependente indisponível — bloqueamos a exclusão por segurança (fail-safe)
+            throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE,
+                    "Serviços dependentes indisponíveis para validação de exclusão.");
         }
         
         repository.delete(aluno);

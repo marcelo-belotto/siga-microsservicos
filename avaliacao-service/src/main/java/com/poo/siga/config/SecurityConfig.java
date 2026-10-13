@@ -37,6 +37,10 @@ public class SecurityConfig {
                     // Endpoint inter-serviço
                     auth.requestMatchers(HttpMethod.GET, "/api/notas/aluno/*/exists").authenticated();
 
+                    // PATCH de notas: apenas ADMIN, COORDENADOR ou PROFESSOR
+                    auth.requestMatchers(HttpMethod.PATCH, "/api/notas/**")
+                            .hasAnyRole("ADMIN", "COORDENADOR", "PROFESSOR");
+
                     auth.anyRequest().authenticated();
                 })
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)

@@ -170,8 +170,13 @@ public class TurmaService {
                 throw new ResponseStatusException(HttpStatus.CONFLICT,
                     "Não é possível excluir turma com alunos vinculados.");
             }
+        } catch (ResponseStatusException e) {
+            // Re-lança erros HTTP intencionais (ex.: 409 CONFLICT)
+            throw e;
         } catch (Exception e) {
-            // Se o serviço estiver indisponível, podemos decidir bloquear ou ignorar
+            // Serviço de matrículas indisponível — bloqueamos a exclusão por segurança (fail-safe)
+            throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE,
+                    "Serviço de matrículas indisponível para validação de exclusão.");
         }
         
         turmaRepository.delete(turma);

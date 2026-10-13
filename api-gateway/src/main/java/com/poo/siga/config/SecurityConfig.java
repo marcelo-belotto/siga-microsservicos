@@ -40,8 +40,8 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> {
-                    // Público — autenticação
-                    auth.requestMatchers("/auth/**").permitAll();
+                    // Público — apenas login; trocar-senha exige autenticação
+                    auth.requestMatchers("/auth/login").permitAll();
 
                     // Actuator — apenas health básico é público; demais exigem ADMIN
                     auth.requestMatchers("/actuator/health").permitAll();
@@ -53,7 +53,7 @@ public class SecurityConfig {
                     // === NOTAS: ADMIN, COORDENADOR ou PROFESSOR ===
                     auth.requestMatchers(HttpMethod.POST, "/api/notas/**")
                             .hasAnyRole("ADMIN", "COORDENADOR", "PROFESSOR");
-                    auth.requestMatchers(HttpMethod.PUT, "/api/notas/**")
+                    auth.requestMatchers(HttpMethod.PATCH, "/api/notas/**")
                             .hasAnyRole("ADMIN", "COORDENADOR", "PROFESSOR");
 
                     // === FREQUENCIA: ADMIN, COORDENADOR ou PROFESSOR ===

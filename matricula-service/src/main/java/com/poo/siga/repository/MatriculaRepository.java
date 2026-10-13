@@ -22,6 +22,8 @@ public interface MatriculaRepository extends JpaRepository<Matricula, Integer> {
 
     boolean existsByAlunoId(Integer alunoId);
 
+    boolean existsByTurmaId(Integer turmaId);
+
     /** Retorna o maior número seq. de matrícula do ano (ex: "MAT202600015" -> 15). Null se vazio. */
     @Query("SELECT MAX(CAST(SUBSTRING(m.numero, 8) AS integer)) FROM Matricula m WHERE m.numero LIKE CONCAT('MAT', :ano, '%')")
     Integer findMaxNumeroByAno(@Param("ano") String ano);
