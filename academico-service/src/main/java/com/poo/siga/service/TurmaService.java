@@ -23,7 +23,6 @@ public class TurmaService {
     private final ProfessorRepository professorRepository;
     private final RestTemplate restTemplate;
     private final ModeloGradeRepository modeloGradeRepository;
-    private final DisciplinaRepository disciplinaRepository;
     private final GradeHorariaRepository gradeHorariaRepository;
 
     @org.springframework.beans.factory.annotation.Value("${gateway.url:http://localhost:8080}")

@@ -1,3 +1,4 @@
+\connect matriculadb
 -- Script DDL para o banco de dados do microsserviço matricula-service (matriculadb)
 -- Extraído da tabela "matricula" do DDL_dump.sql do monolito.
 -- As colunas aluno_id e turma_id eram FKs para as tabelas "aluno" e "turma"

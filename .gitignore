@@ -19,6 +19,9 @@
 **/.env.*
 !**/*.env.example
 relatorios-pmd-consolidado
+desliga-servico
+micro_carga_automatica.patch
+micro_correcao_ddl.patch
 
 # application.properties/.yml de cada serviço só devem existir localmente com
 # valores de exemplo (os reais vêm de variáveis de ambiente via ${VAR}).

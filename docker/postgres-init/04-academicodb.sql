@@ -1,3 +1,4 @@
+\connect academicodb
 -- Script DDL para o banco de dados do microsserviço academico-service (academicodb)
 -- Baseado no DDL_dump.sql do monolito
 -- Tabelas do domínio acadêmico: ano_letivo, disciplina, professor, turma,

@@ -1,3 +1,4 @@
+\connect alunodb
 -- Script DDL para o banco de dados do microsserviço aluno-service (alunodb)
 -- Baseado no DDL_dump.sql do monolito
 

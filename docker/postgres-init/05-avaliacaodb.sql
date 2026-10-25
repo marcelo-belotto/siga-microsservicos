@@ -1,3 +1,4 @@
+\connect avaliacaodb
 -- Script DDL para o banco de dados do microsserviço avaliacao-service (avaliacaodb)
 -- Baseado no DDL_dump.sql do monolito
 

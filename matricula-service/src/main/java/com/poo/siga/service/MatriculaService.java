@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -36,8 +39,14 @@ public class MatriculaService {
 
     @Transactional(readOnly = true)
     public Page<MatriculaResponse> listar(String nomeAluno, Integer turmaId, Integer anoLetivo,
-                                           SituacaoMatricula situacao, Pageable pageable) {
-        return matriculaRepository.buscarComFiltros(nomeAluno, turmaId, anoLetivo, situacao, pageable)
+            SituacaoMatricula situacao, Pageable pageable) {
+        Sort sort = pageable.getSort().isSorted() ? pageable.getSort() : Sort.unsorted();
+        if (sort.getOrderFor("id") == null) {
+            sort = sort.and(Sort.by("id"));
+        }
+        Pageable estavel = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
+
+        return matriculaRepository.buscarComFiltros(nomeAluno, turmaId, anoLetivo, situacao, estavel)
                 .map(MatriculaResponse::from);
     }
 
@@ -167,7 +176,7 @@ public class MatriculaService {
         List<Matricula> matriculasOrigem = matriculaRepository.findByTurmaId(req.turmaOrigemId())
                 .stream()
                 .filter(m -> m.getSituacao() == SituacaoMatricula.ATIVA
-                          || m.getSituacao() == SituacaoMatricula.CONCLUIDA)
+                        || m.getSituacao() == SituacaoMatricula.CONCLUIDA)
                 .toList();
 
         int total = matriculasOrigem.size();

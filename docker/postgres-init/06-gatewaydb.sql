@@ -1,3 +1,4 @@
+\connect gatewaydb
 -- Script DDL para o banco de dados do api-gateway (gatewaydb)
 -- Domínio de autenticação: usuario e log_acesso.
 -- No monolito, "usuario" tinha uma FK para "professor". Como Professor agora

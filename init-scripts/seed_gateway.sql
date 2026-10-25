@@ -1,5 +1,5 @@
 
-INSERT INTO public.usuario (
+INSERT INTO usuario (
     ativo,
     bloqueado,
     data_expiracao_senha,
@@ -24,6 +24,6 @@ SELECT
     'usuario' || n || '@teste.com',
     'usuario' || n,
     'Usuario ' || n,
-    'OPERADOR',
+    'ADMIN',
     '$2a$10$wtCOyqTrpkkiT1ITi3ukfeykkvL7LbnLBkOIgYwmJ8FWnbFEJMNFG'
 FROM generate_series(1, 200) AS n;
